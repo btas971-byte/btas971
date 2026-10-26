@@ -1,0 +1,427 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>Fences and Gates Area Report</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: blue cover band, sticky area nav, one full-width section per area:
+   two renders side by side (plan + isometric), then BOQ / spec / parts tables. */
+:root{
+  --royal:#1B3FA0; --royal-d:#142E78; --ink:#0B0F1A;
+  --green:#BFEBB6; --green-d:#2E8B4A; --orange:#FFD9A6; --orange-d:#B5611A;
+  --bg:#F5F7FB; --surface:#FFFFFF; --fg:#0B0F1A; --muted:#4B5568; --line:#D5DBE8;
+  --head-bg:#EAEFFA; --accent-text:#1B3FA0; --band:#0B0F1A; --band-fg:#FFFFFF;
+  --f-display:"Archivo","Arial Narrow",Arial,sans-serif;
+  --f-body:"Source Sans 3","Segoe UI",Arial,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0A0E18; --surface:#111829; --fg:#EEF1F8; --muted:#A5AEC2; --line:#26304A;
+  --head-bg:#18223B; --accent-text:#8FAAFF; --band:#05070D; --green:#2C5A38; --green-d:#7FD493; --orange:#4A3418; --orange-d:#FFC27A; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0A0E18; --surface:#111829; --fg:#EEF1F8; --muted:#A5AEC2; --line:#26304A;
+  --head-bg:#18223B; --accent-text:#8FAAFF; --band:#05070D; --green:#2C5A38; --green-d:#7FD493; --orange:#4A3418; --orange-d:#FFC27A; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--f-body);font-size:16px;line-height:1.55;margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3,h4{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.1}
+.mono{font-family:var(--f-mono);font-variant-numeric:tabular-nums}
+
+/* cover */
+.cover{background:var(--royal);color:#fff;border-bottom:10px solid var(--ink)}
+.cover .wrap{padding-block:48px 40px;display:grid;gap:28px}
+.eyebrow{font-family:var(--f-mono);font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+.cover h1{font-size:clamp(2.2rem,6vw,4.1rem);font-weight:800;max-width:16ch}
+.cover p.lead{font-size:1.15rem;max-width:56ch;margin:0;opacity:.95}
+.meta{display:flex;flex-wrap:wrap;gap:10px 28px;font-size:.92rem}
+.meta b{display:block;font-family:var(--f-mono);font-weight:500;font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;opacity:.75}
+.tag{display:inline-block;background:var(--orange);color:#3B2205;font-weight:700;font-size:.82rem;padding:3px 10px;border-radius:3px}
+
+/* nav */
+.nav{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--band);color:var(--band-fg)}
+.nav .wrap{display:flex;gap:4px;overflow-x:auto;padding-block:0}
+.nav a{color:#fff;text-decoration:none;font-family:var(--f-display);font-weight:700;font-size:.9rem;padding:13px 14px;white-space:nowrap;border-bottom:3px solid transparent}
+.nav a:hover,.nav a:focus-visible{border-bottom-color:var(--green);outline:none}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);background:var(--band);z-index:30}
+
+/* glance */
+.glance{padding-block:44px 8px;display:grid;gap:22px}
+.glance h2,.sec-title{font-size:clamp(1.6rem,3.4vw,2.3rem);font-weight:800;color:var(--accent-text)}
+.glance-grid{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:24px;align-items:start}
+.idx{display:grid;gap:10px;margin:0;padding:0;list-style:none}
+.idx li{display:grid;grid-template-columns:44px 1fr;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);padding:12px 14px;border-radius:4px}
+.idx .n{width:44px;height:44px;border-radius:50%;background:var(--royal);color:#fff;font-family:var(--f-display);font-weight:800;font-size:1.3rem;display:grid;place-items:center}
+.idx strong{font-family:var(--f-display);display:block;font-size:1.05rem}
+.idx span{color:var(--muted);font-size:.92rem}
+figure{margin:0}
+figure img{display:block;width:100%;height:auto;border-radius:4px;border:1px solid var(--line);background:#d9c9a8}
+figcaption{font-size:.86rem;color:var(--muted);margin-top:8px;display:flex;gap:8px;align-items:flex-start}
+.sw{flex:none;width:16px;height:16px;margin-top:3px;background:var(--green);border:2px solid var(--green-d);border-radius:2px}
+.legend{display:flex;flex-wrap:wrap;gap:8px 18px;font-size:.88rem;color:var(--muted)}
+.legend i{display:inline-block;width:14px;height:14px;vertical-align:-2px;margin-right:6px;background:var(--green);border:2px solid var(--green-d);border-radius:2px}
+
+/* sections */
+.area{padding-block:56px 20px;border-top:1px solid var(--line);margin-top:40px}
+.area-head{display:flex;gap:16px;align-items:center;margin-bottom:18px;flex-wrap:wrap}
+.badge{flex:none;width:58px;height:58px;border-radius:50%;background:var(--royal);color:#fff;display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:1.8rem;box-shadow:0 0 0 5px var(--green)}
+.area-head .sub{color:var(--muted);margin:2px 0 0}
+.facts{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px;padding:0;list-style:none}
+.facts li{background:var(--orange);color:var(--fg);padding:8px 14px;border-radius:4px;display:grid;line-height:1.2}
+.facts b{font-family:var(--f-display);font-size:1.45rem;font-weight:800}
+.facts small{font-size:.78rem;letter-spacing:.04em}
+.pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-bottom:26px}
+.pair .cap-t{font-family:var(--f-mono);font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--accent-text);margin-bottom:6px}
+h3.tt{font-size:1.2rem;font-weight:700;margin:30px 0 10px;padding-bottom:6px;border-bottom:3px solid var(--royal);color:var(--fg)}
+h4.st{font-size:1.02rem;margin:22px 0 8px;color:var(--accent-text)}
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.93rem}
+th,td{text-align:left;padding:9px 12px;vertical-align:top;border-bottom:1px solid var(--line)}
+th{background:var(--royal);color:#fff;font-family:var(--f-display);font-weight:700;font-size:.82rem;letter-spacing:.05em;text-transform:uppercase;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.q{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap;text-align:right;font-weight:500}
+th.q{text-align:right}
+td.k{font-weight:600;width:28%;background:var(--head-bg)}
+td.id{font-family:var(--f-mono);white-space:nowrap}
+tr.hl td{background:var(--green)}
+.note{background:var(--orange);border-left:6px solid var(--orange-d);padding:14px 16px;border-radius:3px;margin-top:20px}
+.note h4{margin:0 0 6px;color:var(--fg)}
+.note ul{margin:0;padding-left:20px}
+.note li{margin:3px 0}
+.sources{font-size:.9rem;color:var(--muted)}
+.final{padding-block:50px 70px}
+footer{background:var(--band);color:#fff}
+footer .wrap{padding-block:26px;font-size:.88rem;display:flex;flex-wrap:wrap;gap:10px 30px;justify-content:space-between}
+:focus-visible{outline:3px solid var(--royal);outline-offset:2px}
+@media (max-width:860px){.glance-grid,.pair{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:520px){body{font-size:15px}.cover .wrap{padding-block:34px 28px}.badge{width:48px;height:48px;font-size:1.5rem}}
+@media print{.nav,body::before{display:none}.area{break-before:page}}
+</style>
+
+<header class="cover">
+  <div class="wrap">
+    <div class="eyebrow">Permanent Quarantine Facility · Royal Commission for AlUla</div>
+    <h1>Fences and Gates Package: Area-wise Report</h1>
+    <p class="lead">Where each part of the fence and gates package sits on the site, how much of it the BOQ covers, and what it is made of.</p>
+    <div class="meta">
+      <div><b>Basis</b>B.O.Q for Fence and Gates Package, Rev.01 (09.08.2026)</div>
+      <div><b>Drawings</b>Site renders (AR-999000), SE-001001, SE-001010, SE-001040/41, AR-000039</div>
+      <div><b>Prepared for</b>Top Management</div>
+      <div><b>Scope</b>Quantities and specification only <span class="tag">No costs shown</span></div>
+    </div>
+  </div>
+</header>
+
+<nav class="nav" aria-label="Areas"><div class="wrap">
+  <a href="#glance">Site at a glance</a><a href="#area1">1 Rewilding</a><a href="#area2">2 Isolation</a><a href="#area3">3 Corridor</a><a href="#area4">4 Fencing and walls</a><a href="#confirm">To confirm</a>
+</div></nav>
+
+<main>
+<section class="wrap glance" id="glance">
+  <h2>Site at a glance</h2>
+  <div class="glance-grid">
+    <figure>
+      <img src="img/overview.jpg" alt="Isometric render of the site with the four BOQ areas filled light green and numbered 1 to 4" width="1800" height="1012">
+      <figcaption><span class="sw"></span><span>Light green is the part of the site the BOQ quantity covers. Numbers match the sections below. Source: site render (isometric), highlighted for this report.</span></figcaption>
+    </figure>
+    <ol class="idx">
+      <li><span class="n">1</span><div><strong>Rewilding Enclosure (1 No.)</strong><span>417 m barrier fence, 3 gates; breeding enclosures listed in the same bill (800 m barrier, roofs, screens, 136 gates)</span></div></li>
+      <li><span class="n">2</span><div><strong>Isolation Enclosure (2 Nos.)</strong><span>IE1 and IE2 only. 214 m barrier, 3 roof items, 32 gates and doors</span></div></li>
+      <li><span class="n">3</span><div><strong>Corridor</strong><span>52 m low corridor, 157 m high corridor, 24 m screen, 3 gates</span></div></li>
+      <li><span class="n">4</span><div><strong>Fencing, Railings and Walls</strong><span>1,438 m perimeter fence (5.5 m), 300 m compound fence (3 m), 7 gates</span></div></li>
+    </ol>
+  </div>
+  <div class="legend" aria-label="Legend"><span><i></i>Area covered by BOQ quantity</span><span>Top row of each section: left = site plan (Render 1), right = isometric view (Render 2)</span></div>
+</section>
+
+<!-- AREA 1 -->
+<section class="wrap area" id="area1">
+  <div class="area-head"><div class="badge">1</div><div><h2 class="sec-title">Rewilding Enclosure (1 No.)</h2><p class="sub">BOQ Bill 2.2, Enclosures and Vestibules. Rewilding RE1 is the left-hand enclosure at the top of the site.</p></div></div>
+  <ul class="facts"><li><b>417 m</b><small>5.5 m barrier fence</small></li><li><b>3 Nos.</b><small>gates on the fence</small></li><li><b>3 m</b><small>post spacing</small></li><li><b>2 m</b><small>shade net height</small></li></ul>
+
+  <div class="pair">
+    <figure><div class="cap-t">Overview · Render 1 (site plan)</div><img src="img/re1_plan.jpg" alt="Site plan with Rewilding Enclosure RE1 filled light green" width="1800" height="1450"><figcaption><span class="sw"></span><span>Rewilding Enclosure RE1: the whole area inside the 417 m fence line.</span></figcaption></figure>
+    <figure><div class="cap-t">Clearer view · Render 2 (isometric)</div><img src="img/re1_iso.jpg" alt="Isometric view of Rewilding Enclosure RE1 filled light green" width="1800" height="750"><figcaption><span class="sw"></span><span>Same area in the isometric render. The fence is 5.5 m high with outriggers on both sides.</span></figcaption></figure>
+  </div>
+
+  <h3 class="tt">1.1 What the BOQ covers</h3>
+  <div class="tw"><table>
+    <thead><tr><th>BOQ item</th><th>Description</th><th class="q">Qty</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="id">A</td><td>Rewilding fence, barrier 5,500 mm high</td><td class="q">417</td><td>m</td></tr>
+      <tr><td class="id">C</td><td>Vehicle Gate Type B, 3,000 × 3,000 mm, manual</td><td class="q">2</td><td>No</td></tr>
+      <tr><td class="id">E</td><td>Transfer Type C, 10,000 × 5,500 mm, horizontal slider, remote with local manual override</td><td class="q">1</td><td>No</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="tt">1.2 Specification and parts: rewilding fence (item A)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Part</th><th>Specification</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td><b>Main post</b></td><td>Steel RHS 300 × 100 mm, 10 mm thick, 5.5 m above ground, every 3 m</td><td>BOQ item A; SE-001001 fence schedule</td></tr>
+      <tr><td><b>Outriggers</b></td><td>1 m long, on both sides of the fence, facing the animal side</td><td>BOQ item A; AR-000039 note 15</td></tr>
+      <tr><td><b>Beams</b></td><td>Top beam 60 × 60 × 5 mm; intermediate beam 70 × 70 × 5 mm</td><td>SE-001001 beam schedule</td></tr>
+      <tr><td><b>Shade net</b></td><td>2 m high on the fence</td><td>BOQ item A</td></tr>
+      <tr><td><b>Base plate</b></td><td>450 × 300 × 35 mm, 10 mm weld, 4 bolts of 30 mm, 50 mm edge distance, 300 mm embedment</td><td>BOQ item A; SE-001001 base plate schedule</td></tr>
+      <tr><td><b>Foundation</b></td><td>Pad 2,700 × 1,300 × 500 mm, B12 bars at 100 mm both ways, top and bottom</td><td>SE-001001 foundation schedule; BOQ External Works item A (ref. P1)</td></tr>
+      <tr><td><b>Maximum gap</b></td><td>50 mm anywhere in an animal enclosure</td><td>AR-000039 note 12</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="tt">1.3 Specification and parts: gates (items C and E)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Gate</th><th>Qty</th><th>Opening</th><th>Operation</th><th>Frame and infill</th></tr></thead>
+    <tbody>
+      <tr><td><b>Vehicle Gate Type B</b> (VB)</td><td class="q">2</td><td>3,000 W × 3,000 H clear; panel 3,000 × 3,000</td><td>Swing, manual</td><td>Welded tube, galvanised steel (or aluminium), painted; rigid welded mesh 50 × 50 mm. Ceiling panel must be removable at this gate.</td></tr>
+      <tr><td><b>Transfer Type C</b> (TC)</td><td class="q">1</td><td>10,000 W × 5,500 H clear; two panels 5,060 × 5,560 each</td><td>Double horizontal slider, remote with local manual override</td><td>Welded tube, galvanised steel (or aluminium), painted; rigid welded mesh 50 × 50 mm. Leopard use. Motor inside animal space needs a removable metal box. Crate outer 1,400 × 900 × 1,000 mm.</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sources">Gate types: AR-000039 Gate Type Schedule. Sliders overlap the clear opening by 60 mm at top and both sides (note 13). Track and accessories: galvanised, exterior-grade paint to match RCU standard.</p>
+
+  <h3 class="tt">1.4 Breeding enclosures listed in the same BOQ bill</h3>
+  <p>The BOQ puts these items under the Rewilding heading. The bill summary names the section "Rewilding Enclosure &amp; Breeding". The four breeding enclosures are shown below.</p>
+  <div class="pair">
+    <figure><div class="cap-t">Overview · Render 1 (site plan)</div><img src="img/breed_plan.jpg" alt="Site plan with the four breeding enclosures filled light green" width="1800" height="1450" loading="lazy"><figcaption><span class="sw"></span><span>Four Breeding Enclosures (left block, below Rewilding RE1).</span></figcaption></figure>
+    <figure><div class="cap-t">Clearer view · Render 2 (isometric)</div><img src="img/breed_iso.jpg" alt="Isometric view of the four breeding enclosures filled light green" width="1800" height="900" loading="lazy"><figcaption><span class="sw"></span><span>Steel frames with mesh walls, mesh ceiling and sheds along one side.</span></figcaption></figure>
+  </div>
+  <div class="tw"><table>
+    <thead><tr><th>BOQ item</th><th>Description</th><th class="q">Qty</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="id">H</td><td>Breeding enclosure leopard barrier: mesh 4.88/3.76 mm, 25 × 25 mm, natural substrate, PVC chain-link ceiling, H = 5,000 mm, with supports and bracing</td><td class="q">800</td><td>m</td></tr>
+      <tr><td class="id">E</td><td>Shade netting to wall / enclosure</td><td class="q">5,200</td><td>m²</td></tr>
+      <tr><td class="id">F</td><td>Chain-link netting to roof enclosure</td><td class="q">4,840</td><td>m²</td></tr>
+      <tr><td class="id">G</td><td>Sloped composite metal roof</td><td class="q">1,240</td><td>m²</td></tr>
+      <tr><td class="id">J</td><td>Screen on non-barrier fence</td><td class="q">374</td><td>m</td></tr>
+      <tr><td class="id">K</td><td>Screening supplemented with native vegetation</td><td class="q">183</td><td>m</td></tr>
+      <tr><td class="id">L</td><td>Keeper Type A, 900 × 2,100 mm, manual</td><td class="q">48</td><td>No</td></tr>
+      <tr><td class="id">M</td><td>Keeper Type B, 900 × 2,100 mm, horizontal slider, manual</td><td class="q">8</td><td>No</td></tr>
+      <tr><td class="id">N</td><td>Transfer Type A, 700 × 400 mm, horizontal slider, remote with local manual override</td><td class="q">64</td><td>No</td></tr>
+      <tr><td class="id">P</td><td>Transfer Type E, 450 × 450 mm, horizontal slider, remote with local manual override</td><td class="q">16</td><td>No</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sources">The BOQ letter E appears twice in this bill (Transfer Type C and shade netting).</p>
+
+  <h4 class="st">Structure of the breeding enclosures (SE-001010, Breeding and Auxiliary Enclosures)</h4>
+  <div class="tw"><table>
+    <thead><tr><th>Part</th><th>Specification</th></tr></thead>
+    <tbody>
+      <tr><td><b>Layout</b></td><td>2.5 m grid. Mid level +3.500 m, roof level +5.000 m with metal deck roof.</td></tr>
+      <tr><td><b>Columns</b></td><td>SHS 150×150×5 (SHS150a), SHS 200×200×8 (SHS200e), SHS 200×200×6.3 (SHS200c)</td></tr>
+      <tr><td><b>Beams</b></td><td>RHS 200×100×5, RHS 150×100×5 and ×6.3, RHS 120×60×5, RHS 90×50×5, RHS 80×40×5, SHS 140×5</td></tr>
+      <tr><td><b>Posts (enclosure schedule)</b></td><td>5 m above ground; peripheral posts at 2.5 m maximum, internal posts at 5 m</td></tr>
+      <tr><td><b>Footings</b></td><td>Pad types PF6 (2,100×1,400×500), PF7 (1,200×1,200×400), PF9 (1,900×1,000×400), PF11 (1,600×1,200×500)</td></tr>
+      <tr><td><b>Floor and walls</b></td><td>RC slab 200 mm and 300 mm; CMU walls 150 mm and 200 mm</td></tr>
+    </tbody>
+  </table></div>
+
+  <h4 class="st">Gate types used in the breeding enclosures (AR-000039)</h4>
+  <div class="tw"><table>
+    <thead><tr><th>Type</th><th>Operation</th><th>Clear opening</th><th>Panel</th><th>Mesh</th></tr></thead>
+    <tbody>
+      <tr><td><b>Keeper A</b> (KA)</td><td>Swing, manual</td><td>900 × 2,100</td><td>900 × 2,100</td><td>25 × 25 mm</td></tr>
+      <tr><td><b>Keeper B</b> (KB)</td><td>Horizontal slider, manual</td><td>900 × 2,100</td><td>1,020 × 2,160</td><td>25 × 25 mm</td></tr>
+      <tr><td><b>Transfer A</b> (TA)</td><td>Horizontal slider, remote with local manual override</td><td>950 × 1,050</td><td>1,010 × 1,110</td><td>25 × 25 mm</td></tr>
+      <tr><td><b>Transfer E</b> (TE)</td><td>Horizontal slider, remote with local manual override</td><td>450 × 450</td><td>570 × 450</td><td>25 × 25 mm</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note"><h4>Points to confirm for this area</h4><ul>
+    <li>Transfer Type A is 700 × 400 mm in the BOQ but 950 × 1,050 mm clear opening in the gate schedule AR-000039.</li>
+    <li>The roof, netting and breeding items sit under the Rewilding heading in the BOQ. The drawings show the metal deck roof on the breeding, auxiliary and isolation enclosures, not on RE1.</li>
+    <li>Column and beam counts for the breeding steel could not be checked from the drawing text.</li>
+  </ul></div>
+</section>
+
+<!-- AREA 2 -->
+<section class="wrap area" id="area2">
+  <div class="area-head"><div class="badge">2</div><div><h2 class="sec-title">Isolation Enclosure (2 Nos.)</h2><p class="sub">BOQ Bill 2.2. IE1 and IE2 only; IE3 to IE9 are omitted as the BOQ heading states.</p></div></div>
+  <ul class="facts"><li><b>214 m</b><small>5 m high barrier</small></li><li><b>2,388 m²</b><small>roof and netting items</small></li><li><b>30 Nos.</b><small>gates</small></li><li><b>2 Nos.</b><small>doors D1</small></li></ul>
+
+  <div class="pair">
+    <figure><div class="cap-t">Overview · Render 1 (site plan)</div><img src="img/iso_plan.jpg" alt="Site plan with Isolation Enclosures IE1 and IE2 filled light green" width="1800" height="1450" loading="lazy"><figcaption><span class="sw"></span><span>IE1 and IE2 at the east end of the long isolation block (bottom left).</span></figcaption></figure>
+    <figure><div class="cap-t">Clearer view · Render 2 (isometric)</div><img src="img/iso_iso.jpg" alt="Isometric view of Isolation Enclosures IE1 and IE2 filled light green" width="1800" height="1150" loading="lazy"><figcaption><span class="sw"></span><span>Steel-framed mesh enclosures with a roof. The exact IE1 / IE2 limits are drawn from the render and are indicative.</span></figcaption></figure>
+  </div>
+
+  <h3 class="tt">2.1 What the BOQ covers</h3>
+  <div class="tw"><table>
+    <thead><tr><th>BOQ item</th><th>Description</th><th class="q">Qty</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="id">K</td><td>Isolation Enclosure barrier: mesh 4.88/3.76 mm, 25 × 25 mm, natural substrate, PVC chain-link ceiling, H = 5,000 mm, with supports and bracing</td><td class="q">214</td><td>m</td></tr>
+      <tr><td class="id">G</td><td>Shade netting to wall / enclosure</td><td class="q">906</td><td>m²</td></tr>
+      <tr><td class="id">H</td><td>Chain-link netting to roof enclosure</td><td class="q">1,012</td><td>m²</td></tr>
+      <tr><td class="id">J</td><td>Typical sloped standing roof</td><td class="q">470</td><td>m²</td></tr>
+      <tr><td class="id">J (2nd)</td><td>Keeper Type A, 900 × 2,100 mm, manual</td><td class="q">12</td><td>No</td></tr>
+      <tr><td class="id">L</td><td>Transfer Type A, 700 × 400 mm, horizontal slider, remote with local manual override</td><td class="q">6</td><td>No</td></tr>
+      <tr><td class="id">M</td><td>Transfer Type B, 1,010 × 1,110 mm, horizontal slider, remote with local manual override</td><td class="q">12</td><td>No</td></tr>
+      <tr><td class="id">Q</td><td>Observation screen, 16.85 × 2.4 m</td><td class="q">1</td><td>No</td></tr>
+      <tr><td class="id">R</td><td>Door D1, 900 × 2,400 mm, manual</td><td class="q">2</td><td>No</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sources">The BOQ letter J is used twice in this bill.</p>
+
+  <h3 class="tt">2.2 Specification and parts: isolation barrier (item K)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Part</th><th>Specification</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td><b>Height and mesh</b></td><td>5,000 mm high; mesh 25 × 25 mm, 4.88/3.76 mm wire; natural substrate; PVC extruded chain-link ceiling; supports and bracing included</td><td>BOQ item K</td></tr>
+      <tr><td><b>Layout</b></td><td>Three bay types (1, 2, 3) on a 2.5 m grid; bay drawn about 30 m long and 17.5 m wide. Mid level +3.500 m, roof level +5.000 m with metal deck roof.</td><td>SE-001040, 001041, 001042</td></tr>
+      <tr><td><b>Columns</b></td><td>SHS 150×150×5 (SHS150a), SHS 200×200×8 (SHS200e), SHS 200×200×10 (SHS200g), SHS 200×200×6.3 (SHS200c); RHS 160×80×5 (RHS160b) along the corridor edge</td><td>SE-001040, 001041</td></tr>
+      <tr><td><b>Beams</b></td><td>RHS 150×100×5, RHS 200×100×5, SHS 140×5, RHS 90×50×5, RHS 80×40×5</td><td>SE-001040, 001041</td></tr>
+      <tr><td><b>Posts (enclosure schedule)</b></td><td>5 m above ground; periphery at 2.5 m maximum spacing, internal posts at 5 m</td><td>SE-001010</td></tr>
+      <tr><td><b>Footings</b></td><td>Pad types PF6, PF7, PF11, PF15 (1,200×1,200×500), PF16 (1,400×1,400×400)</td><td>SE-001040, 001041</td></tr>
+      <tr><td><b>Floor and walls</b></td><td>RC slab 300 mm at ground level, 200 mm RC slab at +0.250 m; CMU wall 150 mm</td><td>SE-001040, 001041</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="tt">2.3 Specification and parts: gates, door, screen</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Item</th><th>Qty</th><th>Opening</th><th>Operation</th><th>Frame and infill</th></tr></thead>
+    <tbody>
+      <tr><td><b>Keeper Type A</b> (KA)</td><td class="q">12</td><td>900 × 2,100</td><td>Swing, manual</td><td>Welded tube, galvanised or aluminium, painted; mesh 25 × 25 mm</td></tr>
+      <tr><td><b>Transfer Type A</b> (TA)</td><td class="q">6</td><td>BOQ 700 × 400; schedule 950 × 1,050 (panel 1,010 × 1,110)</td><td>Horizontal slider, remote with local manual override</td><td>Welded tube, painted; mesh 25 × 25 mm; leopard</td></tr>
+      <tr><td><b>Transfer Type B</b> (TB)</td><td class="q">12</td><td>BOQ 1,010 × 1,110; schedule clear 950 × 1,050</td><td>Horizontal slider, remote with local manual override</td><td>Welded tube, painted; mesh 50 × 50 mm; leopard</td></tr>
+      <tr><td><b>Door D1</b></td><td class="q">2</td><td>900 × 2,400 (observation area)</td><td>Manual</td><td>Frame F, galvanised hollow metal, painted; rigid welded mesh 25 × 25 mm</td></tr>
+      <tr><td><b>Observation screen</b></td><td class="q">1</td><td>16.85 × 2.4 m</td><td>-</td><td>No further detail in the BOQ</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sources">Gate and door types: AR-000039 (Gate Type Schedule and Door Frame Types).</p>
+
+  <div class="note"><h4>Points to confirm for this area</h4><ul>
+    <li>The bill summary row still reads "Isolation Enclosure (9 Nos.)" while the section heading says 2 Nos.</li>
+    <li>Transfer Type A size differs between the BOQ and the gate schedule (see area 1).</li>
+    <li>Keeper A (12) and Transfer A (6) carry the same BOQ amounts as the breeding quantities of 48 and 64. The estimator should confirm the quantities used.</li>
+    <li>Observation screen: confirm the drawing reference.</li>
+    <li>The 2,388 m² figure is shade net 906 + chain-link 1,012 + roof 470, added from the BOQ.</li>
+  </ul></div>
+</section>
+
+<!-- AREA 3 -->
+<section class="wrap area" id="area3">
+  <div class="area-head"><div class="badge">3</div><div><h2 class="sec-title">Corridor</h2><p class="sub">BOQ Bill 2.3, Animal Circulation. Flex corridors that link the enclosures.</p></div></div>
+  <ul class="facts"><li><b>52 m</b><small>flex corridor, 2.5 m frame</small></li><li><b>157 m</b><small>flex corridor, 5 m frame</small></li><li><b>24 m</b><small>screening</small></li><li><b>3 Nos.</b><small>gates</small></li></ul>
+
+  <div class="pair">
+    <figure><div class="cap-t">Overview · Render 1 (site plan)</div><img src="img/corr_plan.jpg" alt="Site plan with the two flex corridors filled light green" width="1800" height="1450" loading="lazy"><figcaption><span class="sw"></span><span>Long strip: 157 m corridor along the top of the four breeding enclosures. Short strip: 52 m corridor above IE1 and IE2.</span></figcaption></figure>
+    <figure><div class="cap-t">Clearer view · Render 2 (isometric)</div><img src="img/corr_iso.jpg" alt="Isometric view of the flex corridors filled light green" width="1800" height="1012" loading="lazy"><figcaption><span class="sw"></span><span>The corridors run along the enclosure edges as a fenced lane with shade net.</span></figcaption></figure>
+  </div>
+
+  <h3 class="tt">3.1 What the BOQ covers</h3>
+  <div class="tw"><table>
+    <thead><tr><th>BOQ item</th><th>Description</th><th class="q">Qty</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr class="hl"><td class="id">A</td><td>Flex corridor, 2.5 m frame</td><td class="q">52</td><td>m</td></tr>
+      <tr class="hl"><td class="id">B</td><td>Flex corridor, 5 m frame</td><td class="q">157</td><td>m</td></tr>
+      <tr><td class="id">C</td><td>Screening including substructure and ceiling enclosure</td><td class="q">24</td><td>m</td></tr>
+      <tr><td class="id">D</td><td>Keeper Type A, 900 × 2,100 mm, manual</td><td class="q">1</td><td>No</td></tr>
+      <tr><td class="id">E</td><td>Vehicular Type A, 6,000 × 5,500 mm, manual</td><td class="q">1</td><td>No</td></tr>
+      <tr><td class="id">F</td><td>Vehicle Gate Type B, 3,000 × 3,000 mm, manual</td><td class="q">1</td><td>No</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="tt">3.2 Specification and parts: flex corridors</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Part</th><th>Item A: 52 m</th><th>Item B: 157 m</th></tr></thead>
+    <tbody>
+      <tr><td class="k">Post</td><td>160 × 80 mm, 5 mm thick (RHS160b)</td><td>200 × 100 mm, 6.3 mm thick (RHS200d)</td></tr>
+      <tr><td class="k">Height above ground</td><td>3 m</td><td>3.8 m (BOQ)</td></tr>
+      <tr><td class="k">Outrigger</td><td>None</td><td>None</td></tr>
+      <tr><td class="k">Post spacing</td><td>2.5 m centres</td><td>2.5 m centres</td></tr>
+      <tr><td class="k">Shade net</td><td>2 m</td><td>2 m</td></tr>
+      <tr><td class="k">Base plate</td><td colspan="2">300 × 225 × 30 mm, 6 mm weld, 4 bolts of 24 mm, 40 mm edge distance, 250 mm embedment</td></tr>
+      <tr><td class="k">Beam</td><td colspan="2">RHS 80 × 40 × 5 mm (RHS80f) between posts</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sources">Sources: BOQ Bill 2.3 items A and B; SE-001001 fence and base plate schedules; SE-001010 and SE-001040 column and beam schedules.</p>
+
+  <h3 class="tt">3.3 Gates in the corridor (AR-000039)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Gate</th><th>Qty</th><th>Opening</th><th>Operation</th><th>Frame and infill</th></tr></thead>
+    <tbody>
+      <tr><td><b>Keeper Type A</b></td><td class="q">1</td><td>900 × 2,100</td><td>Swing, manual</td><td>Welded tube, painted; mesh 25 × 25 mm</td></tr>
+      <tr><td><b>Vehicular Type A</b> (VA)</td><td class="q">1</td><td>6,000 W × 5,500 H; two leaves of 3,000 × 5,500</td><td>Double swing, manual</td><td>Welded tube, painted; mesh 25 × 25 mm</td></tr>
+      <tr><td><b>Vehicle Gate Type B</b> (VB)</td><td class="q">1</td><td>3,000 × 3,000</td><td>Swing, manual</td><td>Welded tube, painted; mesh 50 × 50 mm</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note"><h4>Points to confirm for this area</h4><ul>
+    <li>Height of the 5 m frame corridor: 3.8 m in the BOQ, 3.0 m in the SE-001001 legend (the 3.8 m line there is listed with the prey enclosure).</li>
+    <li>The 24 m screening (item C) has no further specification in the BOQ.</li>
+    <li>Corridor positions are read from the renders and are indicative.</li>
+  </ul></div>
+</section>
+
+<!-- AREA 4 -->
+<section class="wrap area" id="area4">
+  <div class="area-head"><div class="badge">4</div><div><h2 class="sec-title">Fencing, Railings and Walls</h2><p class="sub">BOQ Bill 2.4, External Works. Electrified perimeter fence and site gates.</p></div></div>
+  <ul class="facts"><li><b>1,438 m</b><small>perimeter fence, 5.5 m</small></li><li><b>300 m</b><small>compound fence, 3 m</small></li><li><b>7 Nos.</b><small>site gates</small></li><li><b>579 Nos.</b><small>foundations (see below)</small></li></ul>
+
+  <div class="pair">
+    <figure><div class="cap-t">Overview · Render 1 (site plan)</div><img src="img/perim_plan.jpg" alt="Site plan with the perimeter fence line filled light green" width="1800" height="1450" loading="lazy"><figcaption><span class="sw"></span><span>The perimeter line around the whole site, including the stepped corner around the entrance compound.</span></figcaption></figure>
+    <figure><div class="cap-t">Clearer view · Render 2 (isometric)</div><img src="img/perim_iso.jpg" alt="Isometric view of the perimeter fence filled light green" width="1800" height="1012" loading="lazy"><figcaption><span class="sw"></span><span>The same fence line in the isometric view. The 3 m compound fence is the stepped part near the entrance buildings.</span></figcaption></figure>
+  </div>
+
+  <h3 class="tt">4.1 What the BOQ covers</h3>
+  <div class="tw"><table>
+    <thead><tr><th>BOQ item</th><th>Description</th><th class="q">Qty</th><th>Unit</th></tr></thead>
+    <tbody>
+      <tr><td class="id">A</td><td>RCC foundation 2,700 × 1,300 × 500 mm incl. excavation, waterproofing, blinding, concrete, reinforcement, formwork (ref. P1). Marked "out of scope" in this BOQ.</td><td class="q">579</td><td>No</td></tr>
+      <tr class="hl"><td class="id">B</td><td>5,500 mm high (overall) fence, 300 × 100 mm main post, 2 m shade net height, base, bolts and connections (ref. P1)</td><td class="q">1,438</td><td>m</td></tr>
+      <tr class="hl"><td class="id">C</td><td>3,000 mm high fence (external elevation, compound), 300 × 100 mm main post, 2 m shade net height, base, bolts and connections</td><td class="q">300</td><td>m</td></tr>
+      <tr><td class="id">D</td><td>Vehicular Type E, 7,200 × 5,500 mm, remote with local manual override</td><td class="q">3</td><td>No</td></tr>
+      <tr><td class="id">E</td><td>Vehicular Type A, 6,000 × 5,500 mm, manual</td><td class="q">2</td><td>No</td></tr>
+      <tr><td class="id">F</td><td>Keeper Type A, 900 × 2,100 mm overall, manual</td><td class="q">2</td><td>No</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sources">The fence is described as electrified: it includes the connection to electrical services, fixed in position, with foundation as described.</p>
+
+  <h3 class="tt">4.2 Specification and parts: perimeter fence</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Part</th><th>Specification</th><th>Source</th></tr></thead>
+    <tbody>
+      <tr><td><b>Main post</b></td><td>RHS 300 × 100 mm, 10 mm thick, 5.5 m above ground, every 3 m</td><td>SE-001001 (type P1); BOQ item B</td></tr>
+      <tr><td><b>Outriggers</b></td><td>1 m on both sides</td><td>SE-001001</td></tr>
+      <tr><td><b>Shade net</b></td><td>2 m high</td><td>BOQ items B and C; SE-001001</td></tr>
+      <tr><td><b>Base plate</b></td><td>450 × 300 × 35 mm, 10 mm weld, 4 bolts of 30 mm, 50 mm edge distance, 300 mm embedment</td><td>SE-001001 base plate schedule</td></tr>
+      <tr><td><b>Foundation</b></td><td>Pad 2,700 × 1,300 × 500 mm, B12 at 100 mm both ways, top and bottom</td><td>SE-001001; BOQ item A</td></tr>
+      <tr><td><b>Compound fence (3 m)</b></td><td>300 × 100 mm main post; the SE-001001 legend lists 3 m fence types with no outriggers, 3 m spacing and 2 m shade net</td><td>BOQ item C; SE-001001</td></tr>
+      <tr><td><b>Setting out</b></td><td>Posts evenly spaced, 3.0 m maximum, consistent along the whole fence line</td><td>SE-001001 fence post note</td></tr>
+    </tbody>
+  </table></div>
+
+  <h3 class="tt">4.3 Gates on the perimeter (AR-000039)</h3>
+  <div class="tw"><table>
+    <thead><tr><th>Gate</th><th>Qty</th><th>Opening</th><th>Operation</th><th>Frame and infill</th></tr></thead>
+    <tbody>
+      <tr><td><b>Vehicular Type E</b> (VE), site egress</td><td class="q">3</td><td>BOQ 7,200 × 5,500; schedule: road width × 5,500</td><td>Horizontal slider, remote with local manual override</td><td>Welded tube, painted; mesh 25 × 25 mm</td></tr>
+      <tr><td><b>Vehicular Type A</b> (VA)</td><td class="q">2</td><td>6,000 W × 5,500 H; two leaves of 3,000 × 5,500</td><td>Double swing, manual</td><td>Welded tube, painted; mesh 25 × 25 mm</td></tr>
+      <tr><td><b>Keeper Type A</b> (KA)</td><td class="q">2</td><td>900 × 2,100</td><td>Swing, manual</td><td>Welded tube, painted; mesh 25 × 25 mm</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note"><h4>Points to confirm for this area</h4><ul>
+    <li>Which part of the line is the 300 m compound fence. The render shows a stepped corner at the entrance; the exact run should be marked by the design team.</li>
+    <li>The 579 foundations are outside this BOQ package. The footing quantities are in the Footing QTY R02 sheet.</li>
+    <li>Fence line is traced from the renders and is indicative, not a scaled survey.</li>
+  </ul></div>
+</section>
+
+<section class="wrap final" id="confirm">
+  <h2 class="sec-title">Summary of points to confirm</h2>
+  <div class="tw" style="margin-top:16px"><table>
+    <thead><tr><th>#</th><th>Point</th><th>Area</th><th>Who to ask</th></tr></thead>
+    <tbody>
+      <tr><td class="id">1</td><td>Transfer Type A size: 700 × 400 mm (BOQ) vs 950 × 1,050 mm (gate schedule)</td><td>1, 2</td><td>Design Consultant</td></tr>
+      <tr><td class="id">2</td><td>Corridor 5 m frame height: 3.8 m (BOQ) vs 3.0 m (SE-001001 legend)</td><td>3</td><td>Design Consultant</td></tr>
+      <tr><td class="id">3</td><td>Isolation summary row says 9 Nos.; the section is 2 Nos.</td><td>2</td><td>Quantity Surveyor</td></tr>
+      <tr><td class="id">4</td><td>Keeper A (12) and Transfer A (6) in Isolation carry the amounts of 48 and 64 gates</td><td>2</td><td>Estimator</td></tr>
+      <tr><td class="id">5</td><td>Roofs, netting and breeding items sit under the Rewilding heading</td><td>1</td><td>Quantity Surveyor</td></tr>
+      <tr><td class="id">6</td><td>Location of the 300 m, 3 m compound fence</td><td>4</td><td>Design Consultant</td></tr>
+      <tr><td class="id">7</td><td>Observation screen and 24 m corridor screening: no detail in the BOQ</td><td>2, 3</td><td>Design Consultant</td></tr>
+      <tr><td class="id">8</td><td>Duplicate item letters (E in Rewilding, J in Isolation)</td><td>1, 2</td><td>Quantity Surveyor</td></tr>
+      <tr><td class="id">9</td><td>ARCH-Fence Specification and the PTR could not be read; column and beam counts not verified</td><td>All</td><td>Design Consultant</td></tr>
+    </tbody>
+  </table></div>
+  <p class="sources" style="margin-top:16px"><b>Sources:</b> B.O.Q for Fence and Gates Package Rev.01 (09.08.2026), Bills 2.2, 2.3 and 2.4; site renders (Render 1 plan, Render 2 isometric, Render 3 used for area names); drawings MP3SNCULC6018-ACM-XX-AA-000-DR-SE-001001, SE-001010, SE-001040, SE-001041 and MP3SNCULC6018-ASG-XX-AA-000-DR-AR-000039. Highlighted areas are traced on the renders for this report and are indicative.</p>
+</section>
+</main>
+<footer><div class="wrap"><span>Permanent Quarantine Facility · Fences and Gates Package</span><span>Quantities and specification only. No costs shown.</span></div></footer>
+
+</body></html>
